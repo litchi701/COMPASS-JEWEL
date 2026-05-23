@@ -4,6 +4,7 @@ import path from 'path'
 
 export default defineConfig({
   plugins: [vue()],
+  base: '/COMPASS-JEWEL/', // GitHub Pages 部署路径
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src')
@@ -17,5 +18,9 @@ export default defineConfig({
         changeOrigin: true
       }
     }
+  },
+  build: {
+    outDir: 'dist',
+    assetsDir: 'assets'
   }
 })
