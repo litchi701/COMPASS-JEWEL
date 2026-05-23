@@ -1,10 +1,14 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import path from 'path'
+import { fileURLToPath } from 'url'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 export default defineConfig({
   plugins: [vue()],
-  base: '/COMPASS-JEWEL/', // GitHub Pages 部署路径
+  base: '/COMPASS-JEWEL/',
+  root: __dirname,
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src')
@@ -14,13 +18,14 @@ export default defineConfig({
     port: 3000,
     proxy: {
       '/api': {
-        target: '', // 预留：后端 API 地址
+        target: '',
         changeOrigin: true
       }
     }
   },
   build: {
     outDir: 'dist',
-    assetsDir: 'assets'
+    assetsDir: 'assets',
+    emptyOutDir: true
   }
 })
