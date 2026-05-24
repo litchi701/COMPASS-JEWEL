@@ -7,7 +7,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 export default defineConfig({
   plugins: [vue()],
-  base: '/',
+  base: '/COMPASS-JEWEL/',
   root: __dirname,
   resolve: {
     alias: {
