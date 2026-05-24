@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from api.routes import briefing, chat
+from api.routes import briefing, chat, data, feed, trends
 
 app = FastAPI(
     title="COMPASS JEWEL API",
@@ -20,6 +20,9 @@ app.add_middleware(
 # 注册路由
 app.include_router(briefing.router, prefix="/api/briefing", tags=["briefing"])
 app.include_router(chat.router, prefix="/api/chat", tags=["chat"])
+app.include_router(feed.router, prefix="/api/feed", tags=["feed"])
+app.include_router(data.router, prefix="/api/data", tags=["data"])
+app.include_router(trends.router, prefix="/api", tags=["trends"])
 
 @app.get("/")
 def root():

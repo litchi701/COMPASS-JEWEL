@@ -7,7 +7,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 export default defineConfig({
   plugins: [vue()],
-  base: '/COMPASS-JEWEL/',
+  base: '/',
   root: __dirname,
   resolve: {
     alias: {
@@ -18,7 +18,7 @@ export default defineConfig({
     port: 3000,
     proxy: {
       '/api': {
-        target: '',
+        target: 'http://localhost:8000',
         changeOrigin: true
       }
     }

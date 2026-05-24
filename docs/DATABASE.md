@@ -18,7 +18,7 @@
 | url | VARCHAR(500) | 爬取的URL |
 | source_platform | VARCHAR(50) | 来源平台（Twitter/Instagram/TikTok等） |
 | content | TEXT | 爬取内容 |
-| market_region | VARCHAR(20) | 市场区域（JP/KR/SEA/CN/US） |
+| market_region | VARCHAR(20) | 海外市场区域（JP/KR/SEA/US） |
 | keywords | VARCHAR(200) | 关键词（逗号分隔） |
 | crawl_time | DATETIME | 爬取时间 |
 | created_at | TIMESTAMP | 记录创建时间 |

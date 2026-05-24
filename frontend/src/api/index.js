@@ -1,9 +1,8 @@
 import axios from 'axios'
 
 // Axios 实例配置
-// 预留：后端 API 基础 URL
 const apiClient = axios.create({
-  baseURL: '', // 待填充：后端 API 地址
+  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000',
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json'

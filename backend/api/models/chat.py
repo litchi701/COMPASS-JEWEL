@@ -4,13 +4,14 @@ from datetime import datetime
 
 class ChatQueryRequest(BaseModel):
     question: str
+    market: Optional[str] = "JP"
 
 class SourceRecord(BaseModel):
     id: int
     url: str
     source_platform: str
     content: str
-    crawl_time: datetime
+    crawl_time: Optional[datetime] = None
 
 class ChatQueryResponse(BaseModel):
     answer: str

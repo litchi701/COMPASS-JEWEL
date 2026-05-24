@@ -15,7 +15,7 @@ GET /api/briefing/{market}
 ```
 
 **路径参数**
-- `market` (string): 市场代码（JP/KR/SEA/CN/US）
+- `market` (string): 海外市场代码（JP/KR/SEA/US）
 
 **响应示例**
 ```json

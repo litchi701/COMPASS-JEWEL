@@ -2,9 +2,16 @@
   <div :class="$style.feed">
     <div :class="$style.header">
       <div :class="$style.title">DE-NOISED LIVE RAW FEED</div>
-      <div :class="$style.subtitle">100% 可溯源入源数据</div>
+      <div :class="$style.subtitle">
+        100% 可溯源 · {{ stats.total_passed ?? '—' }}/{{ stats.total_raw ?? '—' }} 条通过门控
+      </div>
     </div>
-    <div :class="$style.items">
+
+    <div v-if="loading" :class="$style.hint">加载情报流…</div>
+    <div v-else-if="error" :class="$style.error">{{ error }}</div>
+    <div v-else-if="feedItems.length === 0" :class="$style.hint">当前市场暂无通过门控的数据</div>
+
+    <div v-else :class="$style.items">
       <div
         v-for="item in feedItems"
         :key="item.id"
@@ -22,24 +29,40 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, watch, onMounted } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useMarketStore } from '@/stores/market'
+import { getLiveFeed } from '@/api/feed'
 
-const feedItems = ref([
-  {
-    id: 1,
-    source: 'Twitter @JewelryTrends_JP',
-    time: '2小时前',
-    content: '"今天又支持大F KPHI新款到货，下班后在涩谷店排队了1个小时，但看到实物真的值得！"',
-    tag: '【验证真实性购买】'
-  },
-  {
-    id: 2,
-    source: 'Instagram #chiikawa_jewelry',
-    time: '3小时前',
-    content: '"看透了那些大牌，又文又贵的实体店铺，但看到这个联名款，日常佩戴真的很百搭。"',
-    tag: '【验证真实性购买】'
+const marketStore = useMarketStore()
+const { currentMarket } = storeToRefs(marketStore)
+
+const feedItems = ref([])
+const stats = ref({})
+const loading = ref(false)
+const error = ref('')
+
+const emit = defineEmits(['stats'])
+
+async function loadFeed() {
+  loading.value = true
+  error.value = ''
+  try {
+    const data = await getLiveFeed(currentMarket.value, 20)
+    feedItems.value = data.items || []
+    stats.value = data.stats || {}
+    emit('stats', stats.value)
+  } catch (e) {
+    error.value = '无法加载数据，请确认后端已启动（python main.py）'
+    feedItems.value = []
+    emit('stats', {})
+  } finally {
+    loading.value = false
   }
-])
+}
+
+watch(currentMarket, loadFeed)
+onMounted(loadFeed)
 </script>
 
 <style module>
@@ -68,6 +91,18 @@ const feedItems = ref([
 .subtitle {
   color: #666;
   font-size: 11px;
+}
+
+.hint,
+.error {
+  color: #666;
+  font-size: 12px;
+  padding: 24px 0;
+  text-align: center;
+}
+
+.error {
+  color: #f87171;
 }
 
 .items {

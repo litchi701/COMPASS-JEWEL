@@ -1,6 +1,6 @@
 # COMPASS JEWEL - Strategic Intelligence System
 
-珠宝行业多Agent情报系统，为珠宝公司提供全球市场（日本、韩国、东南亚）的战略情报分析。
+珠宝行业多Agent情报系统，为珠宝公司提供海外市场（日本、韩国、东南亚、美国）的战略情报分析。
 
 ## 项目结构
 
@@ -32,7 +32,7 @@ compass-jewel/
 
 ### 前端功能
 
-- 全球市场选择（中国、日本、韩国、东南亚、美国）
+- 海外市场选择（日本、韩国、东南亚、美国）
 - 当前拦截信息展示
 - 去噪后的实时原始信息流
 - 每日战略简报
@@ -95,6 +95,10 @@ python main.py
 - ReDoc: http://localhost:8000/redoc
 
 详见 [API 文档](docs/API.md)
+
+## 数据源
+
+爬虫数据来自队友仓库 [data-in-hecksong](https://github.com/Lby1102/data-in-hecksong)，已接入实时信息流与过滤率统计。详见 [数据说明](docs/DATA.md)。
 
 ## 数据库设计
 

@@ -1,30 +1,41 @@
 <template>
   <div :class="$style.selector">
-    <div :class="$style.title">GLOBAL MARKETS</div>
-    <div :class="$style.markets">
-      <div
-        v-for="market in markets"
-        :key="market.code"
-        :class="[
-          $style.marketItem,
-          currentMarket === market.code && $style.active
-        ]"
-        @click="selectMarket(market.code)"
-      >
-        <div :class="$style.flag">{{ market.flag }}</div>
-        <div :class="$style.info">
-          <div :class="$style.name">{{ market.name }}</div>
-          <div :class="$style.code">{{ market.code }}</div>
+    <!-- 市场选择器 -->
+    <div :class="$style.section">
+      <div :class="$style.title">GLOBAL MARKETS</div>
+      <div :class="$style.markets">
+        <div
+          v-for="market in markets"
+          :key="market.code"
+          :class="[
+            $style.marketItem,
+            currentMarket === market.code && $style.active
+          ]"
+          @click="selectMarket(market.code)"
+        >
+          <div :class="$style.flag">{{ market.flag }}</div>
+          <div :class="$style.info">
+            <div :class="$style.name">{{ market.name }}</div>
+            <div :class="$style.code">{{ market.code }}</div>
+          </div>
+          <div v-if="market.status" :class="$style.status">{{ market.status }}</div>
         </div>
-        <div v-if="market.status" :class="$style.status">{{ market.status }}</div>
       </div>
     </div>
+
+    <!-- 层级切换器 -->
+    <TierSelector />
+
+    <!-- 热点列表 -->
+    <TrendList />
   </div>
 </template>
 
 <script setup>
 import { computed } from 'vue'
 import { useMarketStore } from '@/stores/market'
+import TierSelector from './TierSelector.vue'
+import TrendList from './TrendList.vue'
 
 const marketStore = useMarketStore()
 
@@ -39,10 +50,18 @@ const selectMarket = (code) => {
 <style module>
 .selector {
   background: #0a0a0a;
-  padding: 24px;
   border-right: 1px solid #333;
-  min-width: 220px;
+  min-width: 280px;
+  max-width: 320px;
   height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.section {
+  padding: 24px;
+  border-bottom: 1px solid #333;
 }
 
 .title {

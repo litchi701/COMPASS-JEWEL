@@ -15,6 +15,9 @@ python-dotenv==1.0.0
 # HTTP 客户端（用于调用 Agent API）
 httpx==0.26.0
 
+# OpenAI 兼容 SDK（FindCG / Claude 等）
+openai>=1.40.0
+
 # 数据验证
 pydantic==2.5.0
 

@@ -87,8 +87,13 @@
 
 <script setup>
 import { ref, computed, nextTick, watch } from 'vue'
+import { storeToRefs } from 'pinia'
 import { useChatStore } from '@/stores/chat'
+import { useMarketStore } from '@/stores/market'
 import { sendQuery, clearChatHistory } from '@/api/chat'
+
+const marketStore = useMarketStore()
+const { currentMarket } = storeToRefs(marketStore)
 import MessageItem from './MessageItem.vue'
 
 const chatStore = useChatStore()
@@ -128,7 +133,7 @@ const sendMessage = async () => {
   // 调用 API
   isLoading.value = true
   try {
-    const response = await sendQuery(question)
+    const response = await sendQuery(question, currentMarket.value)
 
     // 添加 Agent 回复
     const agentMessage = {
@@ -200,7 +205,7 @@ const submitHumanInput = async () => {
   // 调用 API 重新推理
   isLoading.value = true
   try {
-    const response = await sendQuery(humanInput.value)
+    const response = await sendQuery(humanInput.value, currentMarket.value)
 
     const agentMessage = {
       id: Date.now() + 1,

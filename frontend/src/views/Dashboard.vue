@@ -15,31 +15,31 @@
         <!-- 当前拦截信息 -->
         <div :class="$style.section">
           <div :class="$style.sectionTitle">
-            当前拦截信息: <span :class="$style.highlight">#CHIIKAWA 错综复杂与日常黄金金饰</span>
-            <span :class="$style.updateInfo">更新频次: 实时 (Live Search API Bound)</span>
+            当前分析热点: <span :class="$style.highlight">{{ displayTrendName }}</span>
+            <span :class="$style.updateInfo">{{ currentMarketName }} · {{ currentTierName }}</span>
           </div>
 
           <div :class="$style.cards">
             <BriefingCard
-              number="阀门 01:"
-              title="历史流速基准 (Pass)"
-              :score="89"
-              subtitle="双时间窗分析: 历史流速基准通过"
-              description="月、发展趋势稳定且具有长线活跃度。ACGN×奢侈品，非单次爆发性话题，具备长线活跃度。"
+              number="指标 01:"
+              title="热度评分"
+              :score="displayScore"
+              subtitle="综合评估分数"
+              :description="`当前评分 ${displayScore}/100，${displayStatus}`"
             />
             <BriefingCard
-              number="阀门 02:"
-              title="社交声量验证 (Pass)"
-              :score="96.4"
-              subtitle="语义过滤: 自动过滤水军对立"
-              description="核心互动率100%数据干净，核心互动率和机器人账号公关水军，核心互动率100%数据干净。"
+              number="指标 02:"
+              title="穿戴转化率"
+              :score="displayWearRate"
+              subtitle="真实佩戴场景验证"
+              :description="`穿戴转化率 ${displayWearRate}%，真实用户持续增长`"
             />
             <BriefingCard
-              number="阀门 03:"
-              title="穿戴外露验证 (High)"
+              number="指标 03:"
+              title="社交声量"
               :score="92"
-              subtitle="行为特征码: 真实佩戴场景验证"
-              description="触发行为特征码校验，真实佩戴场景验证通过。"
+              subtitle="社交媒体影响力"
+              :description="`社交声量 ${displaySocialVolume}，${displayCategory}`"
             />
           </div>
         </div>
@@ -47,7 +47,7 @@
         <!-- 实时信息流和简报 -->
         <div :class="$style.bottomSection">
           <div :class="$style.feedSection">
-            <LiveFeed />
+            <LiveFeed @stats="onFeedStats" />
           </div>
 
           <div :class="$style.briefingSection">
@@ -60,32 +60,29 @@
               <div :class="$style.briefingItem">
                 <div :class="$style.briefingNumber">01.</div>
                 <div :class="$style.briefingText">
-                  <div :class="$style.briefingLabel">核心变化趋势 (KEY MARKET SHIFT)</div>
-                  <p>目标出海市场Z世代-乙女体系传统金饰"宏大叙事"正加速向"微小叙事"转移。</p>
+                  <div :class="$style.briefingLabel">热点分类 (CATEGORY)</div>
+                  <p>{{ displayCategory }}</p>
                 </div>
               </div>
 
               <div :class="$style.briefingItem">
                 <div :class="$style.briefingNumber">02.</div>
                 <div :class="$style.briefingText">
-                  <div :class="$style.briefingLabel">业务消费影响 (BUSINESS IMPACT)</div>
-                  <div :class="$style.highlight2">机会</div>
-                  <p>企业可直接跳过选品调研环节，重新锁定爆款的总价，轻量化定价策略。</p>
+                  <div :class="$style.briefingLabel">关键洞察 (KEY INSIGHTS)</div>
+                  <div :class="$style.highlight2">核心发现</div>
+                  <p>{{ displayKeyInsights }}</p>
                 </div>
               </div>
 
               <div :class="$style.briefingItem">
                 <div :class="$style.briefingNumber">03.</div>
                 <div :class="$style.briefingText">
-                  <div :class="$style.briefingLabel">建议后续行动 (ACTIONABLE INSIGHTS)</div>
-                  <ul>
-                    <li>长期跟踪建议: 海外潮AI Marketing团队在未来3周内，数据包文件夹中，将Brand Voice调整为"目标性格"，提高15%。</li>
-                    <li>短期启动活动: 立即启动"微小叙事"主题营销活动。</li>
-                  </ul>
+                  <div :class="$style.briefingLabel">建议行动 (RECOMMENDATION)</div>
+                  <p>{{ displayRecommendation }}</p>
                 </div>
               </div>
 
-              <div :class="$style.briefingItem}>
+              <div :class="$style.briefingItem">
                 <div :class="$style.briefingNumber">04.</div>
                 <div :class="$style.briefingText">
                   <div :class="$style.briefingLabel">跨境营销工具 (AI MARKETING KIT)</div>
@@ -104,44 +101,13 @@
     <!-- Agent 3 对话 -->
     <ChatButton />
     <ChatPanel />
-
-    <!-- Agent Pipeline 状态 - 双重门控 -->
-    <div :class="$style.agentStatus">
-      <div :class="$style.statusTitle">🛡️ DUAL-GATE DE-NOISING SYSTEM</div>
-
-      <div :class="$style.gateSection">
-        <div :class="$style.gateTitle">第一道门: 结构化特征硬过滤</div>
-        <div :class="$style.statusItem">
-          <span :class="$style.statusLabel">强商业导向词过滤:</span>
-          <span :class="$style.statusValue">ACTIVE</span>
-        </div>
-        <div :class="$style.statusItem">
-          <span :class="$style.statusLabel">Hashtag滥用检测:</span>
-          <span :class="$style.statusValue">ACTIVE</span>
-        </div>
-      </div>
-
-      <div :class="$style.gateSection">
-        <div :class="$style.gateTitle">第二道门: LLM语义纹理审计</div>
-        <div :class="$style.statusItem">
-          <span :class="$style.statusLabel">公式化通稿过滤:</span>
-          <span :class="$style.statusValue">RUNNING</span>
-        </div>
-        <div :class="$style.statusItem">
-          <span :class="$style.statusLabel">实体外露行为校验:</span>
-          <span :class="$style.statusValue">RUNNING</span>
-        </div>
-      </div>
-
-      <div :class="$style.statusSummary">
-        <span :class="$style.summaryLabel">本轮过滤率:</span>
-        <span :class="$style.summaryValue">87.3%</span>
-      </div>
-    </div>
   </div>
 </template>
 
 <script setup>
+import { ref, computed } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useMarketStore } from '@/stores/market'
 import Header from '@/components/layout/Header.vue'
 import MarketSelector from '@/components/layout/MarketSelector.vue'
 import BriefingCard from '@/components/briefing/BriefingCard.vue'
@@ -150,6 +116,54 @@ import TimelineSlider from '@/components/briefing/TimelineSlider.vue'
 import VerificationPanel from '@/components/briefing/VerificationPanel.vue'
 import ChatButton from '@/components/chat/ChatButton.vue'
 import ChatPanel from '@/components/chat/ChatPanel.vue'
+
+const marketStore = useMarketStore()
+const { selectedTrend, currentMarketName, currentTierName } = storeToRefs(marketStore)
+
+const feedStats = ref({})
+
+function onFeedStats(stats) {
+  feedStats.value = stats || {}
+}
+
+const filterRateDisplay = computed(() => {
+  const rate = feedStats.value?.filter_rate
+  if (rate === undefined || rate === null) return '—'
+  return `${rate}%`
+})
+
+// 根据选中的热点动态显示数据
+const displayTrendName = computed(() => {
+  return selectedTrend.value?.name || '#CHIIKAWA 错综复杂与日常黄金金饰'
+})
+
+const displayCategory = computed(() => {
+  return selectedTrend.value?.category || 'IP联名×轻量化金饰'
+})
+
+const displayScore = computed(() => {
+  return selectedTrend.value?.current_score || 89
+})
+
+const displayWearRate = computed(() => {
+  return selectedTrend.value?.wear_conversion_rate || 78.2
+})
+
+const displaySocialVolume = computed(() => {
+  return selectedTrend.value?.social_volume || '15.3K'
+})
+
+const displayKeyInsights = computed(() => {
+  return selectedTrend.value?.key_insights || '情绪陪伴型IP与轻量化金饰的完美结合，穿戴转化率持续上升'
+})
+
+const displayRecommendation = computed(() => {
+  return selectedTrend.value?.recommendation || '建议启动联名合作，重点投入'
+})
+
+const displayStatus = computed(() => {
+  return selectedTrend.value?.status || '长线资产确认'
+})
 </script>
 
 <style module>

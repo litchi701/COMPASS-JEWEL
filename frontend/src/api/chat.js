@@ -1,8 +1,8 @@
 import apiClient from './index'
 
 // 发送用户提问 (Agent 3)
-export const sendQuery = (question) => {
-  return apiClient.post('/api/chat/query', { question })
+export const sendQuery = (question, market = 'JP') => {
+  return apiClient.post('/api/chat/query', { question, market })
 }
 
 // 获取对话历史
